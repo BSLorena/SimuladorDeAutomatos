@@ -16,12 +16,26 @@ public class AutomatoFinito {
     }
 
     public boolean processarCadeia(String cadeia) {
-        int estadoAtual = estadoInicial;
+        Set<Integer> estadosAtuais = new HashSet<>();
+        estadosAtuais.add(estadoInicial);
+
         for (char c : cadeia.toCharArray()) {
-            if (!transicoes.containsKey(estadoAtual) || !transicoes.get(estadoAtual).containsKey(c))
-                return false;
-            estadoAtual = transicoes.get(estadoAtual).get(c).iterator().next();
+            Set<Integer> proximosEstados = new HashSet<>();
+
+            for (int estadoAtual : estadosAtuais) {
+                if (transicoes.containsKey(estadoAtual) && transicoes.get(estadoAtual).containsKey(c)) {
+                    proximosEstados.addAll(transicoes.get(estadoAtual).get(c));
+                }
+            }
+            estadosAtuais = proximosEstados;
         }
-        return estadosAceitacao.contains(estadoAtual);
+
+        for (int estadoAtual : estadosAtuais) {
+            if (estadosAceitacao.contains(estadoAtual)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

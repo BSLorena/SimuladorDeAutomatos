@@ -34,7 +34,7 @@ public class Main {
             }
            
             int numTransicoes = Integer.parseInt(reader.readLine().trim());
-            Map<Integer, Map<Character, Set<In1teger>>> transicoes = new HashMap<>();
+            Map<Integer, Map<Character, Set<Integer>>> transicoes = new HashMap<>();
             for (int i = 0; i < numTransicoes; i++) {
                 String[] transicao = reader.readLine().trim().split("\\s+");
                 int estadoAtual = Integer.parseInt(transicao[0]);
@@ -44,10 +44,11 @@ public class Main {
                 transicoes.get(estadoAtual).putIfAbsent(simbolo, new HashSet<>());
                 transicoes.get(estadoAtual).get(simbolo).add(proximoEstado);
             }
-            
+
             int estadoInicial = 0;
             AutomatoFinito automato = new AutomatoFinito(estados, alfabeto, transicoes, estadoInicial, estadosAceitacao);
             int numCadeias = Integer.parseInt(reader.readLine().trim());
+
             for (int i = 0; i < numCadeias; i++) {
                 String cadeia = reader.readLine().trim();
                 boolean aceita = automato.processarCadeia(cadeia);
